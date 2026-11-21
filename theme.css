@@ -1,0 +1,117 @@
+/* ===========================================================
+   ثيم محمد: زمردي ليلي + ذهبي
+   =========================================================== */
+:root {
+  --bg: #031614;
+  --card: rgba(255, 255, 255, 0.05);
+  --card-b: rgba(167, 243, 208, 0.13);
+  --text: #f0fdf9;
+  --muted: #a7c8bf;
+  --dim: #7c9e95;
+  --accent: #34d399;
+  --accent2: #fbbf24;
+}
+body::before {
+  background:
+    radial-gradient(40% 35% at 15% 20%, rgba(16, 185, 129, 0.32), transparent 70%),
+    radial-gradient(35% 30% at 85% 15%, rgba(251, 191, 36, 0.18), transparent 70%),
+    radial-gradient(45% 40% at 70% 85%, rgba(20, 184, 166, 0.25), transparent 70%),
+    radial-gradient(35% 35% at 20% 90%, rgba(59, 130, 246, 0.14), transparent 70%);
+}
+.grad { background-image: linear-gradient(90deg, #6ee7b7, #fde68a, #fbbf24, #6ee7b7); }
+.logo { background: linear-gradient(135deg, #059669, #fbbf24); box-shadow: 0 10px 30px -8px rgba(251, 191, 36, 0.55); }
+.btn { background: linear-gradient(135deg, #059669, #0d9488); box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.7); }
+.btn.green { background: linear-gradient(135deg, #d97706, #fbbf24); color: #1c1203; box-shadow: 0 12px 30px -10px rgba(251, 191, 36, 0.7); }
+.btn.ghost { background: rgba(255, 255, 255, 0.07); box-shadow: none; color: var(--text); }
+.fab { background: linear-gradient(135deg, #059669, #fbbf24); color: #fff; }
+@keyframes glowP { 50% { box-shadow: 0 12px 50px -6px rgba(251, 191, 36, 0.9); } }
+.cd > div { background: linear-gradient(160deg, rgba(16, 185, 129, 0.22), rgba(251, 191, 36, 0.1)); border-color: rgba(52, 211, 153, 0.3); }
+.dua { background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(16, 185, 129, 0.1)); border-color: rgba(251, 191, 36, 0.28); }
+.modal .box { background: linear-gradient(160deg, #06302a, #041b18); border-color: rgba(52, 211, 153, 0.3); }
+input:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.18); }
+.sec-title::after { background: linear-gradient(90deg, rgba(52, 211, 153, 0.45), transparent); }
+.toast { background: rgba(4, 30, 26, 0.94); }
+.bc-tip { background: #06302a; }
+.lesson .pgs { display: block; font-size: .6rem; color: #fde68a; margin-top: 1px; }
+
+/* ---------- شاشة القفل ---------- */
+.lock { position: fixed; inset: 0; z-index: 95; display: grid; place-items: center; padding: 18px;
+  background: radial-gradient(circle at 50% 35%, #0b3d35, #031614 70%); transition: opacity .8s, transform .8s; }
+.lock.gone { opacity: 0; transform: scale(1.08); pointer-events: none; }
+.lock-box { width: min(380px, 100%); text-align: center; padding: 32px 24px; border-radius: 28px;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(167, 243, 208, 0.18); backdrop-filter: blur(18px);
+  box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .8); animation: lockIn .9s var(--ease) both; }
+@keyframes lockIn { from { opacity: 0; transform: translateY(40px) scale(.94); filter: blur(8px); } }
+.lock-box.shake { animation: shakeX .5s; }
+@keyframes shakeX { 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
+.lock-ico { display: inline-grid; place-items: center; width: 110px; height: 110px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, .2), transparent 70%); animation: float 4s ease-in-out infinite; }
+.lock-ico #shackle { transition: transform .5s var(--ease); transform-origin: 44px 28px; }
+.lock.unlocked #shackle { transform: translateY(-6px) rotate(-35deg); }
+.lock.unlocked .lock-ico { animation: unlockPop .6s var(--ease); }
+@keyframes unlockPop { 50% { transform: scale(1.25); } }
+.lock-name { font-size: 1.35rem; font-weight: 900; margin-top: 8px; background: linear-gradient(90deg, #6ee7b7, #fde68a, #6ee7b7); background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 5s linear infinite; }
+.lock-sub { color: var(--muted); margin: 6px 0 18px; font-size: .95rem; }
+.lock form { display: grid; gap: 10px; }
+.lock input[type=password] { text-align: center; font-size: 1.1rem; letter-spacing: .15em; }
+.remember { display: flex; gap: 8px; align-items: center; justify-content: center; color: var(--muted); font-size: .88rem; cursor: pointer; }
+.remember input { width: auto; accent-color: #10b981; }
+.lock-err { color: #fda4af; min-height: 1.4em; font-weight: 700; }
+
+/* ---------- المؤقت ---------- */
+.timer { position: relative; width: min(230px, 70vw); aspect-ratio: 1; margin: 16px auto 14px; }
+.t-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.t-track { fill: none; stroke: rgba(255, 255, 255, .07); stroke-width: 12; }
+.t-bar { fill: none; stroke: url(#none); stroke: #10b981; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset .3s linear, stroke .4s; filter: drop-shadow(0 0 8px rgba(16, 185, 129, .6)); }
+.t-bar.brk { stroke: #fbbf24; filter: drop-shadow(0 0 8px rgba(251, 191, 36, .6)); }
+.t-mid { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.t-mid b { font-size: clamp(2.4rem, 9vw, 3.2rem); font-weight: 900; font-variant-numeric: tabular-nums; direction: ltr; }
+.t-mid span { color: var(--muted); font-size: .9rem; }
+.timer.running { animation: breathe 4s ease-in-out infinite; }
+@keyframes breathe { 50% { transform: scale(1.03); } }
+
+/* ---------- التقويم ---------- */
+.heat { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.hd { aspect-ratio: 1; border-radius: 8px; display: grid; place-items: center; font-size: .7rem; color: rgba(255, 255, 255, .55);
+  background: rgba(255, 255, 255, .06); animation: cellIn .5s var(--ease) both; animation-delay: calc(var(--i) * 18ms); }
+.hd.l1 { background: #065f46; color: #d1fae5; }
+.hd.l2 { background: #10b981; color: #022c22; }
+.hd.l3 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #2a1a00; box-shadow: 0 0 14px -3px #fbbf24; }
+.hd.today { outline: 2px solid #fde68a; outline-offset: 2px; }
+@keyframes cellIn { from { opacity: 0; transform: scale(.6) translateY(8px); } }
+
+/* ---------- البسملة ونسب السنة ---------- */
+.final { text-align: center; padding: 26px 18px 22px; overflow: hidden; }
+.basmala { font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 800; margin-bottom: 14px;
+  background: linear-gradient(90deg, #fde68a, #fbbf24, #fff7d6, #f59e0b, #fde68a); background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 6s linear infinite; filter: drop-shadow(0 0 14px rgba(251, 191, 36, .35)); }
+.final.go .basmala { animation: shine 6s linear infinite, basIn 1.4s var(--ease) both; }
+@keyframes basIn { from { opacity: 0; letter-spacing: .4em; filter: blur(8px); } }
+.ft { font-weight: 800; font-size: 1.1rem; }
+.ft2 { font-weight: 800; font-size: .95rem; }
+.two { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.sub-final { padding: 14px 12px 8px; border-radius: 16px; background: rgba(255, 255, 255, .04); border: 1px solid var(--card-b); transition: transform .4s var(--ease); }
+.sub-final:hover { transform: translateY(-4px); }
+.spark { position: absolute; pointer-events: none; font-size: 14px; opacity: 0; animation: spark 4s ease-in-out infinite; }
+@keyframes spark { 0% { opacity: 0; transform: translateY(10px) scale(.4) rotate(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-60px) scale(1.1) rotate(180deg); } }
+.nl { position: relative; margin: 54px 8px 30px; height: 14px; border-radius: 99px; background: rgba(255, 255, 255, .08); }
+.nl.sm { margin: 44px 6px 28px; height: 10px; }
+.nl .fill { position: absolute; inset-block: 0; right: 0; width: 0; border-radius: inherit; overflow: hidden; background: linear-gradient(270deg, #059669, #10b981, #fbbf24); transition: width 1.8s var(--ease); }
+.nl .fill::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, rgba(255, 255, 255, .18) 0 8px, transparent 8px 16px); animation: stripes 1s linear infinite; }
+@keyframes stripes { to { background-position: 22px 0; } }
+.nl .tk { position: absolute; top: 100%; transform: translateX(50%); font-size: .7rem; color: var(--dim); padding-top: 6px; opacity: 0; }
+.nl.go .tk { animation: tkIn .4s var(--ease) both; animation-delay: calc(var(--i) * 70ms); }
+@keyframes tkIn { from { opacity: 0; transform: translate(50%, 8px); } to { opacity: 1; transform: translateX(50%); } }
+.nl .tk::before { content: ""; position: absolute; top: -10px; left: 50%; width: 1px; height: 8px; background: rgba(255, 255, 255, .25); }
+.nl .pin { position: absolute; bottom: 100%; right: 0; transform: translateX(50%); margin-bottom: 8px; padding: 4px 10px; border-radius: 10px; font-weight: 900; font-size: 1.15rem;
+  background: #fff; color: #053b33; white-space: nowrap; transition: right 1.8s var(--ease); opacity: 0; }
+.nl.go .pin { animation: pinDrop .9s var(--ease) both 1.6s; }
+@keyframes pinDrop { 0% { opacity: 0; transform: translate(50%, -30px) scale(.5); } 60% { opacity: 1; transform: translate(50%, 4px) scale(1.1); } 100% { opacity: 1; transform: translateX(50%); } }
+.nl.sm .pin { font-size: .95rem; }
+.nl .pin::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #fff; }
+.nl .pin.soon { background: rgba(251, 191, 36, .18); color: #fcd34d; font-size: .8rem; }
+.nl .pin.soon::after { border-top-color: rgba(251, 191, 36, .18); }
+.chip { --c: #10b981; }
+.pw-meter { height: 6px; border-radius: 99px; background: rgba(255,255,255,.08); margin-top: 8px; overflow: hidden; }
+.pw-meter i { display: block; height: 100%; width: 0; border-radius: inherit; transition: width .4s var(--ease), background .4s; }
