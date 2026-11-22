@@ -127,6 +127,9 @@
     </div>
   </div>
 
+  <h2 class="sec-title reveal">📖 كتبي <span class="small dim" style="font-weight:600">(صفحة صفحة، وعلى كل صفحة أسئلة)</span></h2>
+  <div class="grid g2" id="bookShelf"></div>
+
   <div class="card final reveal mt2" id="final">
     <div class="basmala">بسم الله الرحمن الرحيم</div>
     <div class="ft">نسبة إنجازي بالسنة الأولى كاملة <span class="dim">(الفصلين مع بعض)</span></div>
@@ -326,6 +329,7 @@ function startApp() {
     $("#badges").innerHTML = T.badges(st).map((b) => `<div class="bdg ${b.ok ? "ok" : ""}" title="${b.desc}"><span class="e">${b.icon}</span><b>${b.title}</b><small>${b.desc}</small></div>`).join("");
 
     window.APP_EXTRA && window.APP_EXTRA.render(st, T);
+    window.BOOKS && window.BOOKS.renderShelf();
     T.animateRings(); T.reveal();
     firstRender = false;
   }
@@ -336,6 +340,7 @@ function startApp() {
     $("#syncInfo").textContent = "🔒 بياناتك مشفّرة بكلمة المرور، وبتتزامن بين أجهزتك. ما حدا بيقدر يقرأها بدون كلمة المرور.";
   }
 
+  window.APP = { st: () => st, save: () => { T.Store.save(st); render(); } };
   T.Store.init({
     onState: (s) => { st = s; render(); },
     onStatus: setStatus,
@@ -530,5 +535,6 @@ function startApp() {
 }
 </script>
 <script src="app-extra.js"></script>
+<script src="books.js"></script>
 </body>
 </html>
