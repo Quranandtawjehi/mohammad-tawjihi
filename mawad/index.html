@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a1f">
+<title>صفحة المواد — محمد ونورس</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<!-- ===== تسجيل الدخول ===== -->
+<section id="login" class="screen on">
+  <div class="login-wrap">
+    <div class="login-logo">📚</div>
+    <h1 class="login-title">صفحة <span class="grad">المواد</span></h1>
+    <p class="login-sub">اختر حسابك للدخول</p>
+    <div class="users">
+      <button class="user" data-u="mohammad"><span class="ring-anim"></span><img src="img/mohammad.jpg" alt="محمد"><b>محمد</b><small>محمد عبد السلام زيادة</small></button>
+      <button class="user" data-u="nawras"><span class="ring-anim"></span><img src="img/nawras.jpg" alt="نورس"><b>نورس</b><small>نورس العنانزة</small></button>
+    </div>
+  </div>
+
+  <div class="verify" id="verify">
+    <div class="vbox" id="vbox">
+      <button class="vx" id="vClose">✕</button>
+      <img class="vimg" id="vImg" alt="">
+      <div class="vhi" id="vHi"></div>
+      <div class="vlbl">🔐 للتحقق: من أي سورة هذه الآية؟</div>
+      <div class="ayah" id="vAyah"></div>
+      <form id="vForm" autocomplete="off">
+        <input id="vInput" placeholder="اكتب اسم السورة…" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button class="btn block" type="submit">✅ تحقّق وادخل</button>
+      </form>
+      <div class="verr" id="vErr"></div>
+      <button class="vskip" id="vNew" type="button">🔄 آية أخرى</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== التطبيق ===== -->
+<section id="app" class="screen">
+  <header class="top">
+    <button class="me" id="meBtn"><img id="meImg" alt=""><span><b id="meName"></b><small id="meLvl"></small></span></button>
+    <div class="top-r">
+      <span class="pts" id="ptsPill">⭐ 0</span>
+      <button class="ic" id="themeBtn" title="الوضع">🌓</button>
+      <button class="ic" id="logoutBtn" title="خروج">🚪</button>
+    </div>
+  </header>
+  <main id="view"></main>
+  <nav class="bnav" id="bnav">
+    <button data-go="home" class="on"><i>🏠</i>الرئيسية</button>
+    <button data-go="mistakes"><i>❌</i>أخطائي</button>
+    <button data-go="favs"><i>⭐</i>المفضلة</button>
+    <button data-go="challenge"><i>⚔️</i>التحدي</button>
+    <button data-go="badges"><i>🏅</i>أوسمتي</button>
+  </nav>
+</section>
+
+<div id="toasts"></div>
+<script src="ayat.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
