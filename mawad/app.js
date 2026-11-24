@@ -16,7 +16,7 @@
   const SUBJECTS = [
     { id: "hi", title: "تاريخ الأردن", icon: "🏛️", color: "#db2777", data: "data/hi.json" },
     { id: "is", title: "التربية الإسلامية", icon: "🕌", color: "#059669", data: "data/is.json" },
-    { id: "ar", title: "اللغة العربية", icon: "📜", color: "#d97706", data: null },
+    { id: "ar", title: "اللغة العربية", icon: "✍️", color: "#d97706", data: "data/ar.json" },
     { id: "ma", title: "الرياضيات", icon: "📐", color: "#3b82f6", data: null },
   ];
   const EXAM = new Date("2027-07-21T08:00:00+03:00");
