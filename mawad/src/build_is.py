@@ -17,13 +17,11 @@ units = [
 pq, review = {}, []
 for p in sorted(q, key=int):
     v = q[p]
-    if p in mcq:
-        qs = mcq[p]["qs"]; h = mcq[p].get("h", v["h"])
-    else:
-        h = v["h"]; qs = []
-        for x in v["qs"]:
-            if x["t"] == "m": qs.append({"q": x["q"], "o": x["o"], "a": x["a"]})
-            elif x["t"] == "tf": qs.append({"q": "حدّد صحة العبارة: «" + x["q"] + "»", "o": ["العبارة صحيحة", "العبارة خاطئة"], "a": 0 if x["a"] else 1})
+    h = v["h"]; qs = []
+    for x in v["qs"]:
+        if x["t"] == "m": qs.append({"q": x["q"], "o": x["o"], "a": x["a"]})
+    qs += mcq.get(p, [])
+    for qq in qs: assert len(qq["o"]) == 4 and 0 <= qq["a"] < 4, (p, qq["q"])
     if qs: pq[p] = {"h": h, "qs": qs}
     if "التقويم" in v["h"]:
         items = []
