@@ -17,3 +17,6 @@ units = [
 out = {"id": "hi", "pages": 120, "start": 6, "img": "../books/hi/img/", "units": units, "pq": pq, "review": review, "bank": bank}
 json.dump(out, open(os.path.join(os.path.dirname(here), "data/hi.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("hi: pages", len(pq), "q", sum(len(v["qs"]) for v in pq.values()), "bank", len(bank), "review", len(review))
+
+import subprocess, sys as _s
+subprocess.run([_s.executable, os.path.join(here, "dedup.py"), "hi"])
