@@ -7,7 +7,7 @@ for f in sorted(glob.glob(os.path.join(root, "books/is/q/*.json"))):
 mcq_dir = os.path.join(here, "is_mcq")
 mcq = {}
 for f in sorted(glob.glob(os.path.join(mcq_dir, "*.json"))):
-    mcq.update(json.load(open(f, encoding="utf-8")))
+    for _p, _l in json.load(open(f, encoding="utf-8")).items(): mcq.setdefault(_p, []).extend(_l)
 units = [
     {"n": 1, "t": "واعتصموا بحبل الله جميعًا", "from": 5, "to": 42},
     {"n": 2, "t": "وجعلناكم شعوبًا وقبائل لتعارفوا", "from": 43, "to": 75},
