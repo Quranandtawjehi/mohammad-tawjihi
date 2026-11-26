@@ -1,7 +1,10 @@
 import json, glob, os
 here = os.path.dirname(os.path.abspath(__file__))
 pq, review = {}, []
-for f in sorted(glob.glob(os.path.join(here, "hi_q/*.json"))): pq.update(json.load(open(f, encoding="utf-8")))
+for f in sorted(glob.glob(os.path.join(here, "hi_q/*.json"))):
+    for p, v in json.load(open(f, encoding="utf-8")).items():
+        if p in pq: pq[p]["qs"] += v["qs"]
+        else: pq[p] = v
 for f in sorted(glob.glob(os.path.join(here, "hi_rev/*.json"))): review += json.load(open(f, encoding="utf-8"))
 review.sort(key=lambda r: r["page"])
 for p, v in pq.items():
