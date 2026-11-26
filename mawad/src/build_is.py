@@ -38,6 +38,11 @@ for p in sorted(q, key=int):
 bank = []
 bf = os.path.join(here, "is_bank.json")
 if os.path.exists(bf): bank = json.load(open(bf, encoding="utf-8"))
+_ov = {}
+for _f in sorted(glob.glob(os.path.join(here, "is_rev/*.json"))):
+    for _r in json.load(open(_f, encoding="utf-8")): _ov[_r["page"]] = _r
+review = [_ov.pop(r["page"], r) for r in review] + list(_ov.values())
+review.sort(key=lambda r: r["page"])
 out = {"id": "is", "pages": 153, "start": 5, "img": "../books/is/img/", "units": units, "pq": pq, "review": review, "bank": bank}
 json.dump(out, open(os.path.join(os.path.dirname(here), "data/is.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("is: pages", len(pq), "q", sum(len(v["qs"]) for v in pq.values()), "bank", len(bank), "review lessons", len(review))
