@@ -17,7 +17,9 @@ units = [
     {"n": 2, "t": "الأردن في العصور الإسلامية", "from": 42, "to": 79},
     {"n": 3, "t": "الأردن في العصر الحديث", "from": 80, "to": 120},
 ]
-out = {"id": "hi", "pages": 120, "start": 6, "img": "../books/hi/img/", "units": units, "pq": pq, "review": review, "bank": bank}
+check = json.load(open(os.path.join(here, "hi_check.json"), encoding="utf-8")) if os.path.exists(os.path.join(here, "hi_check.json")) else []
+review = [r for r in review if not r["t"].startswith("أتحقق")]
+out = {"check": check, "id": "hi", "pages": 120, "start": 6, "img": "../books/hi/img/", "units": units, "pq": pq, "review": review, "bank": bank}
 json.dump(out, open(os.path.join(os.path.dirname(here), "data/hi.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print("hi: pages", len(pq), "q", sum(len(v["qs"]) for v in pq.values()), "bank", len(bank), "review", len(review))
 

@@ -131,7 +131,7 @@
   function go(v, arg) {
     stopTimer();
     $$("#bnav button").forEach((b) => b.classList.toggle("on", b.dataset.go === v));
-    const views = { home, subject, review, examSetup, mistakes, favs, challenge, badges };
+    const views = { home, subject, review, check, examSetup, mistakes, favs, challenge, badges };
     $("#view").innerHTML = ""; $("#view").className = "view-in"; void $("#view").offsetWidth;
     (views[v] || home)(arg); scrollTo({ top: 0 });
   }
@@ -226,6 +226,7 @@
       <div class="modes">
         <button class="mode big" data-m="exam"><div class="e">🎯</div><b>ابدأ امتحاني</b><small>اختار عدد الأسئلة، وأسئلة عشوائية من أول المادة لآخرها</small></button>
         <button class="mode" data-m="book"><div class="e">📖</div><b>الكتاب صفحة صفحة</b><small>كل صفحة وأسئلتها</small></button>
+        <button class="mode big2" data-m="check"><div class="e">✅</div><b>التحقق من معلوماتي</b><small>أسئلة (أتحقق من تعلّمي) مع الإجابة النموذجية — وحدة وحدة، درس درس، صفحة صفحة</small></button>
         <button class="mode" data-m="review"><div class="e">📝</div><b>أسئلة الدروس مع حلها</b><small>التقويم والمراجعة لكل درس</small></button>
         <button class="mode" data-m="quick"><div class="e">⚡</div><b>مراجعة سريعة</b><small>10 أسئلة خاطفة</small></button>
         <button class="mode" data-m="mist"><div class="e">❌</div><b>امتحان من أخطائي</b><small>${d.pool.filter((q) => S.mist[q.id]).length} سؤال غلطت فيه</small></button>
@@ -240,6 +241,7 @@
       if (m === "exam") go("examSetup", { id });
       if (m === "book") openReader(id);
       if (m === "review") go("review", id);
+      if (m === "check") go("check", id);
       if (m === "quick") startExam(id, shuffle(d.pool).slice(0, 10), { title: "⚡ مراجعة سريعة", minutes: 0 });
       if (m === "mist") { const qs = d.pool.filter((q) => S.mist[q.id]); if (!qs.length) return toast("👏 ما عندك أخطاء بهالمادة"); startExam(id, shuffle(qs), { title: "❌ امتحان من أخطائي", minutes: 0 }); }
     });
@@ -313,6 +315,38 @@
     if (!(d.review || []).length) box.innerHTML = `<div class="empty"><span class="e">⏳</span>قريبًا</div>`;
     $$(".sa", box).forEach((b) => b.onclick = () => { const r = b.parentNode; r.classList.toggle("open"); b.textContent = r.classList.contains("open") ? "🙈 أخفِ الحل" : "👁️ أظهر الحل"; });
     let all = false; $("#openAll").onclick = () => { all = !all; $$(".rv", box).forEach((r) => r.classList.toggle("open", all)); $$(".sa", box).forEach((b) => b.textContent = all ? "🙈 أخفِ الحل" : "👁️ أظهر الحل"); $("#openAll").textContent = all ? "🙈 أخفِ كل الحلول" : "👁️ أظهر كل الحلول"; };
+  }
+
+  /* ---------------- التحقق من معلوماتي ---------------- */
+  async function check(id) {
+    const s = SUBJECTS.find((x) => x.id === id), d = await getData(id);
+    const C = d.check || [];
+    $("#view").innerHTML = `<button class="back" id="bk">→ رجوع لـ ${s.title}</button><div class="shead" style="--c:${s.color}"><div class="ico">✅</div><div><h2>التحقق من معلوماتي</h2><div class="muted small">جاوب بينك وبين حالك، وبعدين افتح الإجابة النموذجية</div></div></div>
+      <div class="row mt"><button class="btn sm ghost" id="openAll">👁️ أظهر كل الإجابات</button></div><div id="ck"></div>`;
+    $("#bk").onclick = () => go("subject", id);
+    const box = $("#ck");
+    if (!C.length) { box.innerHTML = `<div class="empty"><span class="e">⏳</span>قريبًا — بانتظار دليل المعلم</div>`; return; }
+    d.units.forEach((u) => {
+      const ls = C.filter((x) => x.u === u.n); if (!ls.length) return;
+      const n = ls.reduce((a, x) => a + x.items.length, 0);
+      const ud = document.createElement("details"); ud.className = "ck-u";
+      ud.innerHTML = `<summary>🧩 الوحدة ${u.n}: ${esc(u.t)} <span class="small muted">(${n} سؤال)</span></summary>`;
+      ls.forEach((L2) => {
+        const ld = document.createElement("details"); ld.className = "ck-l";
+        ld.innerHTML = `<summary>📘 الدرس ${L2.l}: ${esc(L2.t)} <span class="small muted">(${L2.items.length})</span></summary>`;
+        const pages = [...new Set(L2.items.map((it) => it.p))];
+        pages.forEach((p) => {
+          let h = `<div class="ck-p"><div class="ck-ph">📄 صفحة ${p} <button class="btn sm ghost ck-go" data-p="${p}">📖 افتح الصفحة</button></div>`;
+          L2.items.filter((it) => it.p === p).forEach((it, i) => { h += `<div class="rv"><div class="qt">${i + 1}) ${esc(it.q)}</div><button class="btn sm ghost mt sa">👁️ الإجابة النموذجية</button><div class="ans">${esc(it.a).replace(/\n/g, "<br>")}</div></div>`; });
+          ld.insertAdjacentHTML("beforeend", h + "</div>");
+        });
+        ud.appendChild(ld);
+      });
+      box.appendChild(ud);
+    });
+    $$(".ck-go", box).forEach((b) => b.onclick = (e) => { e.preventDefault(); openReader(id, +b.dataset.p); });
+    $$(".sa", box).forEach((b) => b.onclick = () => { const r = b.parentNode; r.classList.toggle("open"); b.textContent = r.classList.contains("open") ? "🙈 أخفِ الإجابة" : "👁️ الإجابة النموذجية"; });
+    let all = false; $("#openAll").onclick = () => { all = !all; $$("details", box).forEach((x) => (x.open = all)); $$(".rv", box).forEach((r) => r.classList.toggle("open", all)); $$(".sa", box).forEach((b) => b.textContent = all ? "🙈 أخفِ الإجابة" : "👁️ الإجابة النموذجية"); $("#openAll").textContent = all ? "🙈 أخفِ كل الإجابات" : "👁️ أظهر كل الإجابات"; };
   }
 
   /* ---------------- إعداد الامتحان ---------------- */
